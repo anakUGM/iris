@@ -1,7 +1,9 @@
 import streamlit as st 
 import pandas as pa
+from sklearn import data
+
 st.write("""
-# Iris Classifier  
+# Iris Classifier    
 Aplikasi ini digunakan untuk mengklasifikasikan bunga Iris berdasarkan ukuran Sepal dan Petal. 
 """) 
 
