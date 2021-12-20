@@ -1,11 +1,11 @@
 import streamlit as st 
-import panda as pa
+import pandas as pa
 st.write("""
-# Iris Demo Page 
+# Iris Classifier  
 Aplikasi ini digunakan untuk mengklasifikasikan bunga Iris berdasarkan ukuran Sepal dan Petal. 
 """) 
 
-st.sidebar.header("Sepal dan Petal")
+st.sidebar.header("Masukan Ukuran Sepal dan Petal")
 
 def iris_parameters():
     sl = st.sidebar.slider('Panjang Sepal', 4.0, 8.0, 5.0)
@@ -21,5 +21,5 @@ def iris_parameters():
     return parameters
 
 dp = iris_parameters()
-st.subheader('Parameter Petal dan Sepal')
+st.subheader('Ukuran Sepal dan Petal')
 st.write(dp) 
