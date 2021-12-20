@@ -1,6 +1,6 @@
 import streamlit as st 
 import pandas as pa
-from sklearn import data
+from sklearn import datasets
 
 st.write("""
 # Iris Classifier    
