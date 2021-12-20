@@ -86,7 +86,7 @@ if model == "Decision Tree":
     st.write("""
     ### Statistik Dataset 
     """)
-    st.write(data.describe())
+    st.table(data.describe())
     st.write("""
     ### Pair Plot
     """)
@@ -163,7 +163,7 @@ elif model == "Gaussian Naive Bayes":
     st.write("""
     ### Statistik Dataset 
     """)
-    st.write(data.describe())
+    st.table(data.describe())
     st.write("""
     ### Pair Plot
     """)
@@ -239,7 +239,7 @@ else:
     st.write("""
     ### Statistik Dataset 
     """)
-    st.write(data.describe())
+    st.table(data.describe())
     st.write("""
     ### Pair Plot
     """)
