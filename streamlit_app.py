@@ -85,7 +85,7 @@ def algorithm_decission_tree(x_train, y_train, x_test, y_test, df, st, fn, cn):
     plot_tree(dt_classifier, feature_names = fn, class_names = cn, filled = True)
     st.pyplot(plt)
 
-def algorithm_gausian_naive_bayes(x_train, y_train, x_test, y_test, df, st, fn, cn):
+def algorithm_gausian_naive_bayes(x_train, y_train, x_test, y_test, df, st, cn):
     gnb_classifier = GaussianNB()
     prediction = gnb_classifier.fit(x_train, y_train).predict(df)
     prediction_result(st, prediction[0])
@@ -114,7 +114,7 @@ def algorithm_gausian_naive_bayes(x_train, y_train, x_test, y_test, df, st, fn, 
     st.pyplot(plt)
     st.write("Akurasi Gaussian Naive Bayes adalah: "+str(round(accuracy, 4)))
 
-def algorithm_linear_discriminant_analysis(x_train, y_train, x_test, y_test, df, st, fn, cn):
+def algorithm_linear_discriminant_analysis(x_train, y_train, x_test, y_test, df, st, cn):
     lda_classifier = LinearDiscriminantAnalysis()
     prediction = lda_classifier.fit(x_train, y_train).predict(df)
     prediction_result(st, prediction[0])
@@ -174,6 +174,6 @@ cn = ['setosa', 'versicolor', 'virginica']
 if algorithm == "Decision Tree":
     algorithm_decission_tree(x_train, y_train, x_test, y_test, df, st, fn, cn)
 elif algorithm == "Gaussian Naive Bayes":
-    algorithm_gausian_naive_bayes(x_train, y_train, x_test, y_test, df, st, fn, cn)
+    algorithm_gausian_naive_bayes(x_train, y_train, x_test, y_test, df, st, cn)
 else:
-    algorithm_linear_discriminant_analysis(x_train, y_train, x_test, y_test, df, st, fn, cn)
+    algorithm_linear_discriminant_analysis(x_train, y_train, x_test, y_test, df, st, cn)
