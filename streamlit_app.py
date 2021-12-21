@@ -39,8 +39,8 @@ class results:
         self.result = "Benar"
     
     def as_dict(self):
-        return {'sl': self.sl, 'sw': self.sw, 'pl': self.pl, 'pw': self.pw, 'test': self.test, 
-            'prediction': self.prediction, 'result': self.result}
+        return {'SL': self.sl, 'SW': self.sw, 'PL': self.pl, 'PW': self.pw, 'Label': self.test, 
+            'Prediksi': self.prediction, 'Validasi': self.result}
     
     def update(self):
         if(self.test != self.prediction):
