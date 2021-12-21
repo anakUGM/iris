@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 import streamlit as st
-from seaborn.axisgrid import pairplot
+import numpy as np
 from sklearn import metrics
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.metrics import (accuracy_score, classification_report)
@@ -17,6 +16,36 @@ iris_setosa_url = "https://github.com/anakUGM/iris/raw/master/iris-setosa.jpg"
 iris_virginica_url = "https://github.com/anakUGM/iris/raw/master/iris-virginica.jpg"
 iris_versicolor_url = "https://github.com/anakUGM/iris/raw/master/iris-versicolor.jpg"
 pair_plot_url = "https://github.com/anakUGM/iris/raw/master/pair-plot.png"
+
+#Class 
+class results:
+    def __init__(self, index, sl, sw, pl, pw, test, prediction):
+        self.index = index
+        self.sl = sl 
+        self.sw = sw
+        self.pl = pl 
+        self.pw = pw
+        self.test = test
+        self.prediction = prediction
+        self.result = "Benar"
+    
+    def __init__(self, index, sl, sw, pl, pw):
+        self.index = index
+        self.sl = sl 
+        self.sw = sw
+        self.pl = pl 
+        self.pw = pw
+        self.test = ""
+        self.prediction = ""
+        self.result = "Benar"
+    
+    def as_dict(self):
+        return {'sl': self.sl, 'sw': self.sw, 'pl': self.pl, 'pw': self.pw, 'test': self.test, 
+            'prediction': self.prediction, 'result': self.result}
+    
+    def update(self):
+        if(self.test != self.prediction):
+            self.result = "SALAH!"
 
 #Functions 
 def iris_parameters():
@@ -52,27 +81,41 @@ def prediction_result(st, result):
     else:
         st.image(iris_versicolor_url)
 
+def merge_tes_prediction(x_test, y_test, y_prediction):
+    list = []
+    for index, row in x_test.iterrows():
+        list.append(results(index, row[0], row[1], row[2], row[3]))
+
+    for index, value in y_test.items():
+        for obj in list:
+            if(index == obj.index):
+                obj.test = value
+
+    counter = 0
+    for obj in list:
+        obj.prediction = y_prediction[counter]
+        obj.update()
+        counter +=1 
+    df = pd.DataFrame([x.as_dict() for x in list])
+    return df
+
 def algorithm_decission_tree(x_train, y_train, x_test, y_test, df, st, fn, cn):
     dt_classifier = DecisionTreeClassifier(max_depth = 3, random_state = 1)
     prediction = dt_classifier.fit(x_train,y_train).predict(df)
     prediction_result(st, prediction[0])
     datasets_information(st)
-
     st.write("""
-    ## Model Klasifikasi
+    ## Algoritma Klasifikasi
     Informasi mengenai algoritma klasifikasi yang dipakai.
     ### Decision Tree 
     """)
-
     dt_classifier.fit(x_train,y_train)
-    prediction=dt_classifier.predict(x_test)
-    y_pred = dt_classifier.predict(x_test)
-    accuracy = accuracy_score(y_test,y_pred)
-    report = classification_report(y_pred, y_test)
-    st.write("""#### Contoh Tes Data""")
-    st.table(x_test)
-    st.write("""#### Contoh Hasil Tes""")
-    st.table(y_test)
+    y_prediction = dt_classifier.predict(x_test)
+    accuracy = accuracy_score(y_test,y_prediction)
+    report = classification_report(y_prediction, y_test)
+    st.write("""#### Hasil Prediksi""")
+    compare_test_prediction = merge_tes_prediction(x_test, y_test, y_prediction)
+    st.table(compare_test_prediction)
     st.write("""#### Report""")
     st.code(report)
     st.write("Confusion Matrix")
@@ -90,22 +133,17 @@ def algorithm_gausian_naive_bayes(x_train, y_train, x_test, y_test, df, st, cn):
     prediction = gnb_classifier.fit(x_train, y_train).predict(df)
     prediction_result(st, prediction[0])
     datasets_information(st)
-
     st.write("""
     ## Model Klasifikasi
     Informasi mengenai algoritma klasifikasi yang dipakai.
     ### Gaussian Naive Bayes
     """)
-
-    gnb_classifier = GaussianNB()
-    prediction = gnb_classifier.fit(x_train, y_train).predict(x_test)
-    y_pred = gnb_classifier.predict(x_test)
-    accuracy = accuracy_score(y_test,y_pred)
-    report = classification_report(y_pred, y_test)
-    st.write("""#### Contoh Tes Data""")
-    st.table(x_test)
-    st.write("""#### Contoh Hasil Tes""")
-    st.table(y_test)
+    y_prediction = gnb_classifier.predict(x_test)
+    accuracy = accuracy_score(y_test,y_prediction)
+    report = classification_report(y_prediction, y_test)
+    st.write("""#### Hasil Prediksi""")
+    compare_test_prediction = merge_tes_prediction(x_test, y_test, y_prediction)
+    st.table(compare_test_prediction)
     st.write("""#### Report""")
     st.code(report)
     st.write("Confusion Matrix")
@@ -119,21 +157,17 @@ def algorithm_linear_discriminant_analysis(x_train, y_train, x_test, y_test, df,
     prediction = lda_classifier.fit(x_train, y_train).predict(df)
     prediction_result(st, prediction[0])
     datasets_information(st)
-
     st.write("""
     ## Model Klasifikasi
     Informasi mengenai algoritma klasifikasi yang dipakai.
     ### Linear Discriminant Analysis
     """)
-
-    prediction = lda_classifier.fit(x_train, y_train).predict(x_test)
-    y_pred = lda_classifier.predict(x_test)
-    accuracy = accuracy_score(y_test,y_pred)
-    report = classification_report(y_pred, y_test)
-    st.write("""#### Contoh Tes Data""")
-    st.table(x_test)
-    st.write("""#### Contoh Hasil Tes""")
-    st.table(y_test)
+    y_prediction = lda_classifier.predict(x_test)
+    accuracy = accuracy_score(y_test,y_prediction)
+    report = classification_report(y_prediction, y_test)
+    st.write("""#### Hasil Prediksi""")
+    compare_test_prediction = merge_tes_prediction(x_test, y_test, y_prediction)
+    st.table(compare_test_prediction)
     st.write("""#### Report""")
     st.code(report)
     st.write("Confusion Matrix")
