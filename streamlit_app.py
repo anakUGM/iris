@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
-import numpy as np
 from sklearn import metrics
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.metrics import (accuracy_score, classification_report)
